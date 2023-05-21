@@ -18,10 +18,10 @@ function sc_create_bidirectional_links( $post_id ) {
         return;
     }
 
-	$url = get_site_url();
-	$content = get_post_field( 'post_content', $post_id );
-	$regex = '&<a[^<>]+?href="(' . $url . '[^<>]+?\/)".*?>((?:.(?!\<\/a\>))*.)\<\/a>&';
-	preg_match_all( $regex, $content, $matches );
+    $url = get_site_url();
+    $content = get_post_field( 'post_content', $post_id );
+    $regex = '&<a[^<>]+?href="(' . $url . '[^<>]+?\/)".*?>((?:.(?!\<\/a\>))*.)\<\/a>&';
+    preg_match_all( $regex, $content, $matches );
 
     for ( $i = 0; $i < count( $matches[1] ); $i++ ) {
         $object = [];
