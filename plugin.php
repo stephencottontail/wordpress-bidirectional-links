@@ -30,7 +30,7 @@ function sc_create_bidirectional_links( $post_id ) {
         $object['permalink'] = get_the_permalink( $post_id );
 
         $id = url_to_postid( $matches[1][$i] );
-        $previous = get_post_meta( $id, 'sc_bidirectionali_links' );
+        $previous = get_post_meta( $id, 'sc_bidirectional_links' );
         update_post_meta( $id, 'sc_bidirectional_links', array_merge( $object, $previous ) );
     }
 }
