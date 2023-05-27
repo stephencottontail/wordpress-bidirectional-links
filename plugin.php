@@ -18,15 +18,16 @@ add_action( 'save_post', function( $post_id ) {
     $post_data = get_post( $post_id );
     $url = get_site_url();
     $content = get_post_field( 'post_content', $post_id );
-    $regex = '&<a[^<>]+?href="(' . $url . '[^<>]+?\/)".*?>((?:.(?!\<\/a\>))*.)\<\/a>&';
+    $regex = '&(\w+[\s\p{P}]*)<a[^<>]+?href="(' . $url . '[^<>]+?\/)".*?>((?:.(?!\<\/a\>w))*.)\<\/a>([\s\p{P}]*\w+)&';
     preg_match_all( $regex, $content, $matches );
 
     for ( $i = 0; $i < count( $matches[1] ); $i++ ) {
         $object = [];
         $object[$post_id]['title'] = get_the_title( $post_id );
         $object[$post_id]['permalink'] = get_the_permalink( $post_id );
+        $object[$post_id]['context'] = preg_replace( '&<a[^<>]+?href=".+?".*?>((?:.(?!\<\/a\>w))*.)\<\/a>&', '<strong>$1</strong>', $matches[0][$i] );
 
-        $id = url_to_postid( $matches[1][$i] );
+        $id = url_to_postid( $matches[2][$i] );
         $previous = get_post_meta( $id, 'sc_bidirectional_links', true );
 
         if ( $previous ) {
