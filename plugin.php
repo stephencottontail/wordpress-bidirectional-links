@@ -25,7 +25,7 @@ add_action( 'save_post', function( $post_id ) {
         $object = [];
         $object[$post_id]['title'] = get_the_title( $post_id );
         $object[$post_id]['permalink'] = get_the_permalink( $post_id );
-        $object[$post_id]['context'] = preg_replace( '&<a[^<>]+?href=".+?".*?>((?:.(?!\<\/a\>w))*.)\<\/a>&', '<strong>$1</strong>', $matches[0][$i] );
+        $object[$post_id]['context'] = wp_kses( preg_replace( '&<a[^<>]+?href=".+?".*?>((?:.(?!\<\/a\>w))*.)\<\/a>&', '<strong>$1</strong>', $matches[0][$i] ), array( 'strong' => array() ) );
 
         $id = url_to_postid( $matches[2][$i] );
         $previous = get_post_meta( $id, 'sc_bidirectional_links', true );
